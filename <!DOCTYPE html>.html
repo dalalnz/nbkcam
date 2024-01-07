@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Camera and Music App</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    video {
+      width: 100%;
+      max-width: 600px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<audio id="backgroundMusic" autoplay loop>
+  <source src='"https://www.youtube.com/watch?v=KAAiyZg73S0&ab_channel=NBKGroup"'' type="audio/mp3">
+  Your browser does not support the audio tag.
+</audio>
+
+<script>
+  async function startCamera() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const videoElement = document.createElement("video");
+      videoElement.srcObject = stream;
+      videoElement.autoplay = true;
+      document.body.appendChild(videoElement);
+
+      // Pause background music when camera is active
+      const backgroundMusic = document.getElementById('backgroundMusic');
+      backgroundMusic.pause();
+    } catch (error) {
+      console.error("Error accessing camera:", error);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const consentButton = document.createElement("button");
+    consentButton.textContent = "Allow Camera Access";
+    consentButton.addEventListener("click", startCamera);
+    document.body.appendChild(consentButton);
+  });
+</script>
+
+</body>
+</html>
